@@ -22,6 +22,6 @@ export default {
   min-width: 959px;
   max-width: 1920px;
   margin: 0 auto;
-  padding-top: 60px;
+  padding-top: 59px;
 }
 </style>

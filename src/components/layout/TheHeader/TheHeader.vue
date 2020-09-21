@@ -1,13 +1,8 @@
 <template>
   <vs-navbar color="primary" shadow text-white fixed>
     <template #left>
-      <vs-navbar-item active>
+      <vs-navbar-item @click="$router.push('/statistics')" :active="$route.name === 'Statistics'">
         Статистика
-      </vs-navbar-item>
-    </template>
-    <template #right>
-      <vs-navbar-item>
-        Выйти
       </vs-navbar-item>
     </template>
   </vs-navbar>
