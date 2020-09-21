@@ -18,14 +18,9 @@ export default {
 </script>
 
 <style scoped>
-body {
-  padding: 0;
-  margin: 0 auto;
-  background-color: #f4f7f8;
-}
-
 .theme-container {
-  max-width: 1080px;
+  min-width: 959px;
+  max-width: 1920px;
   margin: 0 auto;
   padding-top: 60px;
 }

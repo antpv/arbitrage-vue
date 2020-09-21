@@ -5,6 +5,7 @@ import Meta from 'vue-meta'
 import router from './router'
 import store from './store'
 import 'vuesax/dist/vuesax.css'
+import './assets/main.scss'
 
 Vue.config.productionTip = false
 
