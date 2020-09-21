@@ -7,7 +7,7 @@ import login from '@/pages/login/router.js'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes: [statistics, login]
 })

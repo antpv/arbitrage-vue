@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/arbitrage-vue/' : '/',
 
   chainWebpack: config => {
     const svgRule = config.module.rule('svg')

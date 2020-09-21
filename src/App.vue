@@ -16,6 +16,12 @@ export default {
     TheHeader
   },
 
+  created() {
+    if (this.$route.path === '/') {
+      this.$router.push({ path: '/login' })
+    }
+  },
+
   computed: {
     ...mapState('auth', ['isLoggedIn'])
   }
