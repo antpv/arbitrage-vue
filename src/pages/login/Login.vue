@@ -1,7 +1,7 @@
 <template>
-  <div>
-    login
-  </div>
+  <vs-button>
+    Active
+  </vs-button>
 </template>
 
 <script>
