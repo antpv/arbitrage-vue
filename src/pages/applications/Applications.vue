@@ -3,9 +3,7 @@
     <!-- SELECT APPLICATION -->
     <vs-row>
       <vs-col w="12">
-        <vs-button
-          @click="openAddModal"
-        >
+        <vs-button @click="openAddModal">
           Добавить
         </vs-button>
       </vs-col>
@@ -29,7 +27,7 @@
               <vs-th>
                 Ссылка на магазин
               </vs-th>
-              </vs-tr>
+            </vs-tr>
           </template>
           <template #tbody>
             <vs-tr :key="i" v-for="(tr, i) in applications" :data="tr">
@@ -40,7 +38,7 @@
                 {{ tr.offer }}
               </vs-td>
               <vs-td>
-                {{ tr.defaultLanguagle }}
+                {{ tr.defaultLanguage }}
               </vs-td>
               <vs-td>
                 {{ tr.link }}
@@ -58,7 +56,7 @@
     </vs-row>
 
     <!-- CREATE APPLICATION -->
-    <vs-dialog not-center v-model="addModalVisible">
+    <vs-dialog width="400px" not-center v-model="addModalVisible">
       <template #header>
         <h4 class="not-margin">
           Новое приложение
@@ -79,7 +77,13 @@
         </div>
 
         <div class="form-container__row">
-          <vs-input v-model="form.link" state="danger" placeholder="Ссылка" />
+          <vs-input v-model="form.link" placeholder="Ссылка" />
+        </div>
+
+        <div class="form-container__row">
+          <div class="custom-error">
+            {{ errorMessage }}
+          </div>
         </div>
       </div>
 
@@ -112,7 +116,7 @@ export default {
       {
         bundle: 'game.jeen.hd',
         offer: 'https://store.websnews.website/T1HZv7',
-        defaultLanguagle: 'PL',
+        defaultLanguage: 'PL',
         link: 'play.google.com/id=com.game'
       }
     ]
@@ -128,13 +132,22 @@ export default {
         defaultLanguage: '',
         link: ''
       },
-      formRequest: false
+      formRequest: false,
+      formErrors: []
     }
   },
 
   computed: {
     tableIsFetched() {
       return this.selectedApplication && this.fetchingApplicationStatistic === false
+    },
+
+    formIsValid() {
+      return this.formErrors.length === 0
+    },
+
+    errorMessage() {
+      return this.formErrors.join(', ')
     }
   },
 
@@ -156,14 +169,41 @@ export default {
       }
     },
 
+    validateForm() {
+      const { bundle, offer, defaultLanguage, link } = this.form
+      const errors = []
+
+      if (!bundle.length) {
+        errors.push('Укажите бандл')
+      }
+
+      if (!offer.length) {
+        errors.push('Укажите оффер')
+      }
+
+      if (!defaultLanguage.length) {
+        errors.push('Укажите дефолтный язык пушей')
+      }
+
+      if (!link.length) {
+        errors.push('Укажите ссылку на магазин')
+      }
+
+      this.formErrors = errors
+    },
+
     makeApplication() {
+      this.validateForm()
+
+      if (this.formIsValid === false) return
+
       const payload = Object.assign({}, this.form)
 
       this.formRequest = true
 
       setTimeout(() => {
         this.applications.push(payload)
-        this.formRequest =  false
+        this.formRequest = false
         this.resetForm()
         this.closeAddModal()
       }, 500)

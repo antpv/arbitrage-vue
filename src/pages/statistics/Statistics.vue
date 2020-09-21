@@ -4,7 +4,7 @@
     <vs-row>
       <vs-col w="12">
         <vs-select
-          placeholder="Выберите предложение"
+          placeholder="Выберите приложение"
           v-model="selectedApplication"
           :loading="fetchingApplicationStatistic"
         >
