@@ -1,11 +1,12 @@
 <template>
   <div class="theme-container">
-    <TheHeader />
+    <TheHeader v-if="isLoggedIn" />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import TheHeader from './components/layout/TheHeader/TheHeader'
 
 export default {
@@ -13,6 +14,10 @@ export default {
 
   components: {
     TheHeader
+  },
+
+  computed: {
+    ...mapState('auth', ['isLoggedIn'])
   }
 }
 </script>

@@ -1,8 +1,12 @@
 const state = {
-  isLoggedIn: true
+  isLoggedIn: false
 }
 
-const mutations = {}
+const mutations = {
+  setAuth(state, bool) {
+    state.isLoggedIn = bool
+  }
+}
 
 const actions = {}
 
