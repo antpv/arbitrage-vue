@@ -7,3 +7,14 @@
 body {
   margin: 15px;
 }
+
+.not-margin {
+  margin: 0;
+  padding: 10px 10px 0;
+}
+
+.con-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

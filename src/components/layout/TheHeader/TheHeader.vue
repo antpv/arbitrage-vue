@@ -7,6 +7,12 @@
       >
         Статистика
       </vs-navbar-item>
+      <vs-navbar-item
+        @click="$route.path !== '/applications' && $router.push('/applications')"
+        :active="$route.name === 'Applications'"
+      >
+        Приложения
+      </vs-navbar-item>
     </template>
   </vs-navbar>
 </template>
