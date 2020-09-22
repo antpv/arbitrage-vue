@@ -35,13 +35,27 @@
                 {{ tr.bundle }}
               </vs-td>
               <vs-td>
-                {{ tr.offer }}
+                <template v-if="isValidUrl(tr.offer)">
+                  <a :href="tr.offer" target="_blank">
+                    {{ tr.offer }}
+                  </a>
+                </template>
+                <template v-else>
+                  {{ tr.offer }}
+                </template>
               </vs-td>
               <vs-td>
                 {{ tr.defaultLanguage }}
               </vs-td>
               <vs-td>
-                {{ tr.link }}
+                <template v-if="isValidUrl(tr.link)">
+                  <a :href="tr.link" target="_blank">
+                    {{ tr.link }}
+                  </a>
+                </template>
+                <template v-else>
+                  {{ tr.link }}
+                </template>
               </vs-td>
             </vs-tr>
           </template>
@@ -65,25 +79,41 @@
 
       <div class="form-container">
         <div class="form-container__row">
-          <vs-input v-model="form.bundle" placeholder="Бандл" />
+          <vs-input v-model="form.bundle" placeholder="Бандл">
+            <template
+              v-if="formErrors['bundle'] && formErrors['bundle'].length > 0"
+              #message-danger
+            >
+              {{ formErrors['bundle'].join(', ') }}
+            </template>
+          </vs-input>
         </div>
 
         <div class="form-container__row">
-          <vs-input v-model="form.offer" type="password" placeholder="Оффер" />
+          <vs-input v-model="form.offer" type="password" placeholder="Оффер">
+            <template v-if="formErrors['offer'] && formErrors['offer'].length > 0" #message-danger>
+              {{ formErrors['offer'].join(', ') }}
+            </template>
+          </vs-input>
         </div>
 
         <div class="form-container__row">
-          <vs-input v-model="form.defaultLanguage" placeholder="Дефольный язык" />
+          <vs-input v-model="form.defaultLanguage" placeholder="Дефольный язык">
+            <template
+              v-if="formErrors['defaultLanguage'] && formErrors['defaultLanguage'].length > 0"
+              #message-danger
+            >
+              {{ formErrors['defaultLanguage'].join(', ') }}
+            </template>
+          </vs-input>
         </div>
 
         <div class="form-container__row">
-          <vs-input v-model="form.link" placeholder="Ссылка" />
-        </div>
-
-        <div class="form-container__row">
-          <div class="custom-error">
-            {{ errorMessage }}
-          </div>
+          <vs-input v-model="form.link" placeholder="Ссылка">
+            <template v-if="formErrors['link'] && formErrors['link'].length > 0" #message-danger>
+              {{ formErrors['link'].join(', ') }}
+            </template>
+          </vs-input>
         </div>
       </div>
 
@@ -102,6 +132,8 @@
 </template>
 
 <script>
+import isValidUrl from '@/utils/isValidUrl'
+
 export default {
   name: 'Applications',
 
@@ -111,15 +143,14 @@ export default {
     }
   },
 
+  watch: {
+    addModalVisible(isVisible) {
+      if (isVisible === false) this.resetForm()
+    }
+  },
+
   data() {
-    const applications = [
-      {
-        bundle: 'game.jeen.hd',
-        offer: 'https://store.websnews.website/T1HZv7',
-        defaultLanguage: 'PL',
-        link: 'play.google.com/id=com.game'
-      }
-    ]
+    const applications = []
 
     return {
       currentPage: 1,
@@ -133,7 +164,7 @@ export default {
         link: ''
       },
       formRequest: false,
-      formErrors: []
+      formErrors: {}
     }
   },
 
@@ -143,15 +174,13 @@ export default {
     },
 
     formIsValid() {
-      return this.formErrors.length === 0
-    },
-
-    errorMessage() {
-      return this.formErrors.join(', ')
+      return Object.values(this.formErrors).every(errors => errors.length === 0)
     }
   },
 
   methods: {
+    isValidUrl,
+
     openAddModal() {
       this.addModalVisible = true
     },
@@ -167,26 +196,29 @@ export default {
         defaultLanguage: '',
         link: ''
       }
+      this.formErrors = {}
     },
 
     validateForm() {
       const { bundle, offer, defaultLanguage, link } = this.form
-      const errors = []
+      const errors = {}
+
+      for (const key in this.form) errors[key] = []
 
       if (!bundle.length) {
-        errors.push('Укажите бандл')
+        errors['bundle'].push('Значение обязательно')
       }
 
       if (!offer.length) {
-        errors.push('Укажите оффер')
+        errors['offer'].push('Значение обязательно')
       }
 
       if (!defaultLanguage.length) {
-        errors.push('Укажите дефолтный язык пушей')
+        errors['defaultLanguage'].push('Значение обязательно')
       }
 
       if (!link.length) {
-        errors.push('Укажите ссылку на магазин')
+        errors['link'].push('Значение обязательно')
       }
 
       this.formErrors = errors
