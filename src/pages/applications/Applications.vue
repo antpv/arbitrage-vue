@@ -90,7 +90,7 @@
         </div>
 
         <div class="form-container__row">
-          <vs-input v-model="form.offer" type="password" placeholder="Оффер">
+          <vs-input v-model="form.offer" placeholder="Оффер">
             <template v-if="formErrors['offer'] && formErrors['offer'].length > 0" #message-danger>
               {{ formErrors['offer'].join(', ') }}
             </template>
