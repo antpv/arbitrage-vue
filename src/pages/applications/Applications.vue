@@ -16,10 +16,10 @@
           <template #thead>
             <vs-tr>
               <vs-th>
-                Bundle
+                Бандл
               </vs-th>
               <vs-th>
-                Offer
+                Оффер
               </vs-th>
               <vs-th>
                 Дефолтный язык пушей
