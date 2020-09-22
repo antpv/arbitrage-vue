@@ -36,7 +36,7 @@ export default {
 
   computed: {
     isEmpty() {
-      return this.username.trim() === '' && this.password.trim() === ''
+      return this.username.trim() === '' || this.password.trim() === ''
     }
   },
 

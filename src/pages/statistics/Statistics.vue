@@ -3,20 +3,36 @@
     <!-- SELECT APPLICATION -->
     <vs-row>
       <vs-col w="12">
-        <vs-select
-          placeholder="Выберите предложение"
-          v-model="selectedApplication"
-          :loading="fetchingApplicationStatistic"
-        >
-          <vs-option
-            v-for="application in applications"
-            :key="application.value"
-            :label="application.label"
-            :value="application.value"
+        <div class="actions">
+          <vs-select
+            placeholder="Выберите приложение"
+            class="actions__action"
+            v-model="selectedApplication"
+            :loading="fetchingApplicationStatistic"
           >
-            {{ application.label }}
-          </vs-option>
-        </vs-select>
+            <vs-option
+              v-for="application in applications"
+              :key="application.value"
+              :label="application.label"
+              :value="application.value"
+            >
+              {{ application.label }}
+            </vs-option>
+          </vs-select>
+          <vs-input type="date" class="actions__action" v-model="dateFilters.fromDate" />
+          <vs-input type="date" class="actions__action" v-model="dateFilters.toDate" />
+          <vs-button
+            v-if="selectedApplication"
+            :loading="reloadApplicationStatistic"
+            class="actions__action"
+            @click="reload"
+          >
+            Обновить
+          </vs-button>
+          <vs-button v-if="hasFilters" class="actions__action" flat @click="resetDateFilters">
+            Сбросить фильтры
+          </vs-button>
+        </div>
       </vs-col>
     </vs-row>
 
@@ -33,7 +49,7 @@
                 Установки
               </vs-th>
               <vs-th>
-                30м нет реги
+                10м нет реги
               </vs-th>
               <vs-th>
                 Регистрации
@@ -54,32 +70,65 @@
                 30м нет депа
               </vs-th>
               <vs-th>
-                Регистрации
+                Депы
               </vs-th>
               <vs-th>
                 24ч нет депа
               </vs-th>
               <vs-th>
-                Регистрации
+                Депы
               </vs-th>
               <vs-th>
                 48ч нет депа
               </vs-th>
               <vs-th>
-                Регистрации
+                Депы
               </vs-th>
             </vs-tr>
           </template>
           <template #tbody>
-            <vs-tr :key="i" v-for="(tr, i) in table" :data="tr">
+            <vs-tr :key="i" v-for="(tr, i) in filteredTable" :data="tr">
               <vs-td>
-                {{ tr.name }}
+                {{ momentProvider(tr.CreatedAt).format('DD.MM.YYYY') }}
               </vs-td>
               <vs-td>
-                {{ tr.email }}
+                {{ tr.Installs }}
               </vs-td>
               <vs-td>
-                {{ tr.id }}
+                {{ tr.NoReg10MinPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.RegsAfter10MinPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.NoReg24HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.RegsAfter24HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.NoReg48HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.RegsAfter48HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.NoDep30MinPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.DepsAfter30MinPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.NoDep24HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.DepsAfter24HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.NoDep48HrsPush }}
+              </vs-td>
+              <vs-td>
+                {{ tr.DepsAfter48HrsPush }}
               </vs-td>
             </vs-tr>
           </template>
@@ -96,12 +145,30 @@
 </template>
 
 <script>
+import StatisticsService from '@/services/StatisticsService'
+
 export default {
   name: 'Statistics',
 
   metaInfo() {
     return {
       title: 'Статистика'
+    }
+  },
+
+  watch: {
+    selectedApplication(value) {
+      if (value) {
+        this.fetchingApplicationStatistic = true
+
+        StatisticsService.getStatistics()
+          .then(results => {
+            this.table = results
+          })
+          .finally(() => {
+            this.fetchingApplicationStatistic = false
+          })
+      }
     }
   },
 
@@ -114,14 +181,80 @@ export default {
       max: 1,
       selectedApplication: '',
       fetchingApplicationStatistic: false,
-      table: []
+      reloadApplicationStatistic: false,
+      table: [],
+      dateFilters: {
+        fromDate: '',
+        toDate: ''
+      }
     }
   },
 
   computed: {
     tableIsFetched() {
       return this.selectedApplication && this.fetchingApplicationStatistic === false
+    },
+
+    hasFilters() {
+      const { fromDate, toDate } = this.dateFilters
+
+      return fromDate && toDate
+    },
+
+    filteredTable() {
+      const { fromDate, toDate } = this.dateFilters
+
+      if (this.hasFilters) {
+        return this.table.filter(push => {
+          return (
+            this.$moment(push.CreatedAt).isSameOrAfter(fromDate) &&
+            this.$moment(push.CreatedAt).isSameOrBefore(toDate)
+          )
+        })
+      }
+
+      return this.table
+    }
+  },
+
+  methods: {
+    momentProvider(date) {
+      return this.$moment(date)
+    },
+
+    resetDateFilters() {
+      this.dateFilters = {
+        toDate: '',
+        fromDate: ''
+      }
+    },
+
+    reload() {
+      this.reloadApplicationStatistic = true
+
+      StatisticsService.getStatistics()
+        .then(results => {
+          this.table = results
+        })
+        .finally(() => {
+          this.reloadApplicationStatistic = false
+        })
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.actions {
+  display: flex;
+  align-items: center;
+
+  &__action {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+</style>

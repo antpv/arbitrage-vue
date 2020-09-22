@@ -1,11 +1,16 @@
 <template>
   <vs-navbar color="primary" shadow text-white fixed>
     <template #left>
-      <vs-navbar-item
-        @click="$route.path !== '/statistics' && $router.push('/statistics')"
-        :active="$route.name === 'Statistics'"
-      >
+      <vs-navbar-item to="/statistics" :active="$route.name === 'Statistics'">
         Статистика
+      </vs-navbar-item>
+      <vs-navbar-item to="/applications" :active="$route.name === 'Applications'">
+        Приложения
+      </vs-navbar-item>
+    </template>
+    <template #right>
+      <vs-navbar-item @click="handleLogout">
+        Выйти
       </vs-navbar-item>
     </template>
   </vs-navbar>
@@ -13,6 +18,13 @@
 
 <script>
 export default {
-  name: 'TheHeader'
+  name: 'TheHeader',
+
+  methods: {
+    handleLogout() {
+      this.$store.commit('auth/setAuth', false)
+      this.$router.push({ path: '/login' })
+    }
+  }
 }
 </script>
