@@ -68,7 +68,7 @@ export default {
   },
 
   watch: {
-    addModalVisible(isVisible) {
+    visible(isVisible) {
       if (isVisible === false) this.resetForm()
     }
   },
