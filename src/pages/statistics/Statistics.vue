@@ -43,46 +43,130 @@
           <template #thead>
             <vs-tr>
               <vs-th>
-                Дата
+                Date
               </vs-th>
               <vs-th>
-                Установки
+                Installs
               </vs-th>
               <vs-th>
-                10м нет реги
+                <div class="subtitle-short">
+                  Reg<br />
+                  &lt;10 min
+                </div>
               </vs-th>
               <vs-th>
-                Регистрации
+                <div class="subtitle">
+                  <div class="subtitle__title">
+                    10 min no reg
+                  </div>
+                  <div class="subtitle__row">
+                    <div class="subtitle__column">
+                      Sent
+                    </div>
+                    <div class="subtitle__column">
+                      Open
+                    </div>
+                    <div class="subtitle__column">
+                      Reg
+                    </div>
+                  </div>
+                </div>
               </vs-th>
               <vs-th>
-                24ч нет реги
+                <div class="subtitle">
+                  <div class="subtitle__title">
+                    24 h no reg
+                  </div>
+                  <div class="subtitle__row">
+                    <div class="subtitle__column">
+                      Sent
+                    </div>
+                    <div class="subtitle__column">
+                      Open
+                    </div>
+                    <div class="subtitle__column">
+                      Reg
+                    </div>
+                  </div>
+                </div>
               </vs-th>
               <vs-th>
-                Регистрации
+                <div class="subtitle">
+                  <div class="subtitle__title">
+                    48 h no reg
+                  </div>
+                  <div class="subtitle__row">
+                    <div class="subtitle__column">
+                      Sent
+                    </div>
+                    <div class="subtitle__column">
+                      Open
+                    </div>
+                    <div class="subtitle__column">
+                      Reg
+                    </div>
+                  </div>
+                </div>
               </vs-th>
               <vs-th>
-                48ч нет реги
+                <div class="subtitle-short">
+                  Dep<br />
+                  &lt;10 min
+                </div>
               </vs-th>
               <vs-th>
-                Регистрации
+                <div class="subtitle">
+                  <div class="subtitle__title">
+                    30 min no dep
+                  </div>
+                  <div class="subtitle__row">
+                    <div class="subtitle__column">
+                      Sent
+                    </div>
+                    <div class="subtitle__column">
+                      Open
+                    </div>
+                    <div class="subtitle__column">
+                      Reg
+                    </div>
+                  </div>
+                </div>
               </vs-th>
               <vs-th>
-                30м нет депа
+                <div class="subtitle">
+                  <div class="subtitle__title">
+                    24 h no dep
+                  </div>
+                  <div class="subtitle__row">
+                    <div class="subtitle__column">
+                      Sent
+                    </div>
+                    <div class="subtitle__column">
+                      Open
+                    </div>
+                    <div class="subtitle__column">
+                      Reg
+                    </div>
+                  </div>
+                </div>
               </vs-th>
               <vs-th>
-                Депы
-              </vs-th>
-              <vs-th>
-                24ч нет депа
-              </vs-th>
-              <vs-th>
-                Депы
-              </vs-th>
-              <vs-th>
-                48ч нет депа
-              </vs-th>
-              <vs-th>
-                Депы
+                <div class="subtitle">
+                  <div class="subtitle__title">
+                    48 h no dep
+                  </div>
+                  <div class="subtitle__row">
+                    <div class="subtitle__column">
+                      Sent
+                    </div>
+                    <div class="subtitle__column">
+                      Open
+                    </div>
+                    <div class="subtitle__column">
+                      Reg
+                    </div>
+                  </div>
+                </div>
               </vs-th>
             </vs-tr>
           </template>
@@ -95,40 +179,104 @@
                 {{ tr.Installs }}
               </vs-td>
               <vs-td>
-                {{ tr.NoReg10MinPush }}
+                <div class="description-short">
+                  N/A
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.RegsAfter10MinPush }}
+                <div class="subtable">
+                  <div class="subtable__row">
+                    <div class="subtable__column">
+                      {{ tr.NoReg10MinPush }}
+                    </div>
+                    <div class="subtable__column">
+                      N/A
+                    </div>
+                    <div class="subtable__column">
+                      {{ tr.RegsAfter10MinPush }}
+                    </div>
+                  </div>
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.NoReg24HrsPush }}
+                <div class="subtable">
+                  <div class="subtable__row">
+                    <div class="subtable__column">
+                      {{ tr.NoReg24HrsPush }}
+                    </div>
+                    <div class="subtable__column">
+                      N/A
+                    </div>
+                    <div class="subtable__column">
+                      {{ tr.RegsAfter24HrsPush }}
+                    </div>
+                  </div>
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.RegsAfter24HrsPush }}
+                <div class="subtable">
+                  <div class="subtable__row">
+                    <div class="subtable__column">
+                      {{ tr.NoReg48HrsPush }}
+                    </div>
+                    <div class="subtable__column">
+                      N/A
+                    </div>
+                    <div class="subtable__column">
+                      {{ tr.RegsAfter48HrsPush }}
+                    </div>
+                  </div>
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.NoReg48HrsPush }}
+                <div class="description-short">
+                  N/A
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.RegsAfter48HrsPush }}
+                <div class="subtable">
+                  <div class="subtable__row">
+                    <div class="subtable__column">
+                      {{ tr.NoDep30MinPush }}
+                    </div>
+                    <div class="subtable__column">
+                      N/A
+                    </div>
+                    <div class="subtable__column">
+                      {{ tr.DepsAfter30MinPush }}
+                    </div>
+                  </div>
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.NoDep30MinPush }}
+                <div class="subtable">
+                  <div class="subtable__row">
+                    <div class="subtable__column">
+                      {{ tr.NoDep24HrsPush }}
+                    </div>
+                    <div class="subtable__column">
+                      N/A
+                    </div>
+                    <div class="subtable__column">
+                      {{ tr.DepsAfter24HrsPush }}
+                    </div>
+                  </div>
+                </div>
               </vs-td>
               <vs-td>
-                {{ tr.DepsAfter30MinPush }}
-              </vs-td>
-              <vs-td>
-                {{ tr.NoDep24HrsPush }}
-              </vs-td>
-              <vs-td>
-                {{ tr.DepsAfter24HrsPush }}
-              </vs-td>
-              <vs-td>
-                {{ tr.NoDep48HrsPush }}
-              </vs-td>
-              <vs-td>
-                {{ tr.DepsAfter48HrsPush }}
+                <div class="subtable">
+                  <div class="subtable__row">
+                    <div class="subtable__column">
+                      {{ tr.NoDep48HrsPush }}
+                    </div>
+                    <div class="subtable__column">
+                      N/A
+                    </div>
+                    <div class="subtable__column">
+                      {{ tr.DepsAfter48HrsPush }}
+                    </div>
+                  </div>
+                </div>
               </vs-td>
             </vs-tr>
           </template>
@@ -174,6 +322,10 @@ export default {
 
   data() {
     const applications = [{ label: 'game.jeen.hd', value: 'game.jeen.hd' }]
+    const fromDate = this.$moment()
+      .subtract('days', 10)
+      .format('YYYY-MM-DD')
+    const toDate = this.$moment().format('YYYY-MM-DD')
 
     return {
       applications,
@@ -184,8 +336,8 @@ export default {
       reloadApplicationStatistic: false,
       table: [],
       dateFilters: {
-        fromDate: '',
-        toDate: ''
+        fromDate,
+        toDate
       }
     }
   },
@@ -256,5 +408,46 @@ export default {
       margin-right: 0;
     }
   }
+}
+
+.subtitle {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.subtitle,
+.subtable {
+  width: 120px;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    flex: 1 1 1;
+  }
+
+  &__column {
+    margin-right: 5px;
+    margin-left: 5px;
+    text-align: center;
+    flex: 1;
+  }
+}
+
+.subtitle-short {
+  text-align: center;
+  margin: 0 auto;
+}
+.description-short {
+  text-align: center;
+  margin: 0 auto;
 }
 </style>
