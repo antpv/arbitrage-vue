@@ -4,6 +4,9 @@
       <vs-navbar-item to="/statistics" :active="$route.name === 'Statistics'">
         Статистика
       </vs-navbar-item>
+      <vs-navbar-item to="/pushlist" :active="$route.name === 'PushList'">
+        Пуши
+      </vs-navbar-item>
       <vs-navbar-item to="/applications" :active="$route.name === 'Applications'">
         Приложения
       </vs-navbar-item>
