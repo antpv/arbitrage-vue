@@ -323,7 +323,7 @@ export default {
   data() {
     const applications = [{ label: 'game.jeen.hd', value: 'game.jeen.hd' }]
     const fromDate = this.$moment()
-      .subtract('days', 10)
+      .subtract(10, 'days')
       .format('YYYY-MM-DD')
     const toDate = this.$moment().format('YYYY-MM-DD')
 
