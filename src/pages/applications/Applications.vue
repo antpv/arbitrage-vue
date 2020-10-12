@@ -32,7 +32,7 @@
           <template #tbody>
             <vs-tr :key="i" v-for="(tr, i) in applications" :data="tr">
               <vs-td>
-                {{ tr.bundle }}
+                {{ tr.BundleId }}
               </vs-td>
               <vs-td>
                 <template v-if="isValidUrl(tr.offer)">
@@ -95,13 +95,14 @@ export default {
     MakeApplication
   },
 
-  data() {
-    const applications = []
+  created() {
+    this.$store.dispatch('applications/getApplications')
+  },
 
+  data() {
     return {
       currentPage: 1,
       max: 1,
-      applications,
       addModalVisible: false
     }
   },
@@ -109,6 +110,10 @@ export default {
   computed: {
     tableIsFetched() {
       return this.selectedApplication && this.fetchingApplicationStatistic === false
+    },
+
+    applications() {
+      return this.$store.state.applications.applications
     }
   },
 

@@ -10,6 +10,9 @@
       <vs-navbar-item to="/applications" :active="$route.name === 'Applications'">
         Приложения
       </vs-navbar-item>
+      <vs-navbar-item to="/templates" :active="$route.name === 'Templates'">
+        Шаблоны
+      </vs-navbar-item>
     </template>
     <template #right>
       <vs-navbar-item @click="handleLogout">
