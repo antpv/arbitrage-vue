@@ -30,7 +30,7 @@
             </vs-tr>
           </template>
           <template #tbody>
-            <vs-tr :key="i" v-for="(tr, i) in applications" :data="tr">
+            <vs-tr :key="tr.ID" v-for="tr in applications" :data="tr">
               <vs-td>
                 {{ tr.BundleId }}
               </vs-td>

@@ -1,20 +1,35 @@
 import ApplicationsService from '../../services/ApplicationsService'
 
 const state = {
-  applications: []
+  applications: [],
+  request: false
 }
 
 const mutations = {
   setApplications(state, payload) {
     state.applications = payload
+  },
+
+  setRequest(state, bool) {
+    state.request = bool
   }
 }
 
 const actions = {
   async getApplications({ commit }) {
-    const applications = await ApplicationsService.getApplications()
+    try {
+      commit('setRequest', true)
 
-    commit('setApplications', applications)
+      const applications = await ApplicationsService.getApplications()
+
+      commit('setApplications', applications)
+
+      return applications
+    } catch (error) {
+      throw Error(error)
+    } finally {
+      commit('setRequest', false)
+    }
   }
 }
 
