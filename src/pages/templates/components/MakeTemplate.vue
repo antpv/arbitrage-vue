@@ -98,11 +98,8 @@ export default {
   watch: {
     visible(isVisible) {
       if (isVisible === false) this.resetForm()
+      else this.$store.dispatch('applications/getApplications')
     }
-  },
-
-  created() {
-    this.$store.dispatch('applications/getApplications')
   },
 
   data() {
