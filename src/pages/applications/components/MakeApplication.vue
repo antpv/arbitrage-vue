@@ -1,7 +1,7 @@
 <template>
   <vs-dialog width="400px" not-center v-model="visibleModel">
     <template #header>
-      <h4 class="not-margin">
+      <h4 class="no-margin">
         Новое приложение
       </h4>
     </template>
