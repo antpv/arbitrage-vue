@@ -13,12 +13,8 @@ export default {
   },
 
   async createTemplate(payload) {
-    console.log('POST', payload)
-
     try {
       const response = await ApiService.post('/api/templates/', payload)
-
-      console.log('RESPONSE', response)
 
       return response
     } catch (error) {

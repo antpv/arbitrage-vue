@@ -9,7 +9,12 @@
     <div class="form-container">
       <!-- Application -->
       <div class="form-container__row">
-        <vs-select placeholder="App" v-model="form.AppId" :loading="applicationsIsFetching">
+        <vs-select
+          :key="selectKey"
+          placeholder="App"
+          v-model="form.AppId"
+          :loading="applicationsIsFetching"
+        >
           <vs-option
             v-for="application in applications"
             :key="application.ID"
@@ -98,7 +103,7 @@ export default {
   watch: {
     visible(isVisible) {
       if (isVisible === false) this.resetForm()
-      else this.$store.dispatch('applications/getApplications')
+      else this.$store.dispatch('applications/getApplications').then(this.forceSelectRerender)
     }
   },
 
@@ -111,6 +116,7 @@ export default {
         SubType: '',
         AppId: ''
       },
+      selectKey: 0,
       formRequest: false,
       formErrors: {}
     }
@@ -137,6 +143,10 @@ export default {
   },
 
   methods: {
+    forceSelectRerender() {
+      this.selectKey += 1
+    },
+
     close() {
       this.$emit('close')
     },
