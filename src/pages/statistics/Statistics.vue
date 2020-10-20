@@ -68,7 +68,7 @@
                       Open
                     </div>
                     <div class="subtitle__column">
-                      Reg
+                      Dep
                     </div>
                   </div>
                 </div>
@@ -86,7 +86,7 @@
                       Open
                     </div>
                     <div class="subtitle__column">
-                      Reg
+                      Dep
                     </div>
                   </div>
                 </div>
@@ -104,7 +104,7 @@
                       Open
                     </div>
                     <div class="subtitle__column">
-                      Reg
+                      Dep
                     </div>
                   </div>
                 </div>
@@ -128,7 +128,7 @@
                       Open
                     </div>
                     <div class="subtitle__column">
-                      Reg
+                      Dep
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@
                       Open
                     </div>
                     <div class="subtitle__column">
-                      Reg
+                      Dep
                     </div>
                   </div>
                 </div>
@@ -164,7 +164,7 @@
                       Open
                     </div>
                     <div class="subtitle__column">
-                      Reg
+                      Dep
                     </div>
                   </div>
                 </div>
