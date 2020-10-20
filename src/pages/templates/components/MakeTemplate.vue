@@ -11,9 +11,10 @@
       <div class="form-container__row">
         <vs-select
           :key="selectKey"
-          placeholder="App"
+          label="App"
           v-model="form.AppId"
           :loading="applicationsIsFetching"
+          block
         >
           <vs-option
             v-for="application in applications"
@@ -32,7 +33,7 @@
 
       <!-- Title -->
       <div class="form-container__row">
-        <vs-input v-model="form.Title" placeholder="Title">
+        <vs-input v-model="form.Title" label="Title" block>
           <template v-if="formErrors['Title'] && formErrors['Title'].length > 0" #message-danger>
             {{ formErrors['Title'].join(', ') }}
           </template>
@@ -41,7 +42,7 @@
 
       <!-- Message -->
       <div class="form-container__row">
-        <vs-input v-model="form.Message" placeholder="Message">
+        <vs-input v-model="form.Message" label="Message" block>
           <template
             v-if="formErrors['Message'] && formErrors['Message'].length > 0"
             #message-danger
@@ -53,7 +54,7 @@
 
       <!-- Type -->
       <div class="form-container__row">
-        <vs-input v-model="form.Type" placeholder="Type">
+        <vs-input v-model="form.Type" label="Type" block>
           <template v-if="formErrors['Type'] && formErrors['Type'].length > 0" #message-danger>
             {{ formErrors['Type'].join(', ') }}
           </template>
@@ -62,7 +63,7 @@
 
       <!-- SubType -->
       <div class="form-container__row">
-        <vs-input v-model="form.SubType" placeholder="SubType">
+        <vs-input v-model="form.SubType" label="SubType" block>
           <template
             v-if="formErrors['SubType'] && formErrors['SubType'].length > 0"
             #message-danger
@@ -197,32 +198,23 @@ export default {
     },
 
     validateForm() {
-      const { Title, Message, Type, SubType, AppId } = this.form
+      const { AppId } = this.form
       const errors = {}
+      const requiredProperties = ['Title', 'Message', 'Type', 'SubType']
 
       for (const key in this.form) {
         errors[key] = []
       }
 
-      if (!Title.length) {
-        errors['Title'].push('Значение обязательно')
-      }
-
-      if (!Message.length) {
-        errors['Message'].push('Значение обязательно')
-      }
-
-      if (!Type.length) {
-        errors['Type'].push('Значение обязательно')
-      }
-
-      if (!SubType.length) {
-        errors['SubType'].push('Значение обязательно')
-      }
-
       if (AppId === '') {
         errors['AppId'].push('Значение обязательно')
       }
+
+      requiredProperties.forEach(property => {
+        if (!this.form[property].length) {
+          errors[property].push('Значение обязательно')
+        }
+      })
 
       this.formErrors = errors
     },
@@ -286,15 +278,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.form-container {
-  &__row {
-    margin-top: 15px;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-}
-</style>

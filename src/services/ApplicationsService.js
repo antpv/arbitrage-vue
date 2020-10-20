@@ -10,5 +10,25 @@ export default {
     } catch (error) {
       throw Error(error)
     }
+  },
+
+  async createApplication(payload) {
+    try {
+      const response = await ApiService.post('/api/apps/', payload)
+
+      return response
+    } catch (error) {
+      throw Error(error)
+    }
+  },
+
+  async editApplication(id, payload) {
+    try {
+      const response = await ApiService.post(`/api/apps/${id}/`, payload)
+
+      return response
+    } catch (error) {
+      throw Error(error)
+    }
   }
 }

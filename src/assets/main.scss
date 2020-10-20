@@ -23,3 +23,13 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
+.form-container {
+  &__row {
+    margin-top: 30px;
+  }
+}
+
+.break-all {
+  word-break: break-all;
+}

@@ -3,7 +3,7 @@
     <!-- SELECT APPLICATION -->
     <vs-row>
       <vs-col w="12">
-        <vs-button @click="openAddModal">
+        <vs-button @click="() => openFormModal()">
           Добавить
         </vs-button>
       </vs-col>
@@ -16,17 +16,33 @@
           <template #thead>
             <vs-tr>
               <vs-th>
-                Бандл
+                BundleId
               </vs-th>
               <vs-th>
-                Оффер
+                Name
               </vs-th>
               <vs-th>
-                Дефолтный язык пушей
+                AppsflyerId
               </vs-th>
               <vs-th>
-                Ссылка на магазин
+                FacebookId
               </vs-th>
+              <vs-th>
+                MagicCheckerId
+              </vs-th>
+              <vs-th>
+                PushApiKey
+              </vs-th>
+              <vs-th>
+                UserXId
+              </vs-th>
+              <vs-th>
+                CreatedAt
+              </vs-th>
+              <vs-th>
+                UpdatedAt
+              </vs-th>
+              <vs-th />
             </vs-tr>
           </template>
           <template #tbody>
@@ -35,6 +51,37 @@
                 {{ tr.BundleId }}
               </vs-td>
               <vs-td>
+                {{ tr.Name }}
+              </vs-td>
+              <vs-td class="break-all">
+                {{ tr.AppsflyerId }}
+              </vs-td>
+              <vs-td class="break-all">
+                {{ tr.FacebookId }}
+              </vs-td>
+              <vs-td class="break-all">
+                {{ tr.MagicCheckerId }}
+              </vs-td>
+              <vs-td class="break-all">
+                {{ tr.PushApiKey }}
+              </vs-td>
+              <vs-td class="break-all">
+                {{ tr.UserXId }}
+              </vs-td>
+              <vs-td>
+                {{ momentProvider(tr.CreatedAt).format('DD.MM.YYYY') }}
+              </vs-td>
+              <vs-td>
+                {{ momentProvider(tr.UpdatedAt).format('DD.MM.YYYY') }}
+              </vs-td>
+              <vs-td>
+                <div class="flex-end">
+                  <vs-button flat size="small" @click="openFormModal(tr)">
+                    Редактировать
+                  </vs-button>
+                </div>
+              </vs-td>
+              <!-- <vs-td>
                 <template v-if="isValidUrl(tr.offer)">
                   <a :href="tr.offer" target="_blank">
                     {{ tr.offer }}
@@ -43,11 +90,8 @@
                 <template v-else>
                   {{ tr.offer }}
                 </template>
-              </vs-td>
-              <vs-td>
-                {{ tr.defaultLanguage }}
-              </vs-td>
-              <vs-td>
+              </vs-td> -->
+              <!-- <vs-td>
                 <template v-if="isValidUrl(tr.link)">
                   <a :href="tr.link" target="_blank">
                     {{ tr.link }}
@@ -56,7 +100,7 @@
                 <template v-else>
                   {{ tr.link }}
                 </template>
-              </vs-td>
+              </vs-td> -->
             </vs-tr>
           </template>
           <template v-if="currentPage !== max" #footer>
@@ -71,8 +115,10 @@
 
     <!-- CREATE APPLICATION -->
     <MakeApplication
-      :visible="addModalVisible"
-      @close="closeAddModal"
+      :visible="formModalVisible"
+      :editedPayload="formModalPayload"
+      :isEditMode="formModalPayload !== null"
+      @close="closeFormModal"
       @success="payload => applications.push(payload)"
     />
   </div>
@@ -80,7 +126,7 @@
 
 <script>
 import MakeApplication from './components/MakeApplication'
-import isValidUrl from '@/utils/isValidUrl'
+// import isValidUrl from '@/utils/isValidUrl'
 
 export default {
   name: 'Applications',
@@ -103,7 +149,8 @@ export default {
     return {
       currentPage: 1,
       max: 1,
-      addModalVisible: false
+      formModalVisible: false,
+      formModalPayload: null
     }
   },
 
@@ -118,14 +165,20 @@ export default {
   },
 
   methods: {
-    isValidUrl,
+    // isValidUrl,
 
-    openAddModal() {
-      this.addModalVisible = true
+    momentProvider(date) {
+      return this.$moment(date)
     },
 
-    closeAddModal() {
-      this.addModalVisible = false
+    openFormModal(payload = null) {
+      this.formModalPayload = payload ? Object.assign({}, payload) : null
+      this.formModalVisible = true
+    },
+
+    closeFormModal() {
+      this.formModalPayload = null
+      this.formModalVisible = false
     }
   }
 }

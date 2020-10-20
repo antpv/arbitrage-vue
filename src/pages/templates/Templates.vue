@@ -163,7 +163,7 @@ export default {
     },
 
     openFormModal(payload = null) {
-      this.formModalPayload = Object.assign({}, payload)
+      this.formModalPayload = payload ? Object.assign({}, payload) : null
       this.formModalVisible = true
     },
 
