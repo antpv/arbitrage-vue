@@ -116,7 +116,6 @@ export default {
         const value = this.editedPayload[property]
 
         if (value !== undefined) {
-          console.log(`Set "${value}" for ${property}`)
           this.form[property] = value
         }
       })
