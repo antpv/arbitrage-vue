@@ -17,7 +17,7 @@
     <!-- TABLE -->
     <vs-row :style="{ marginTop: '15px' }">
       <vs-col w="12">
-        <vs-table striped>
+        <vs-table ref="table" striped>
           <template #thead>
             <vs-tr>
               <vs-th>
@@ -114,15 +114,15 @@ export default {
     MakeTemplate
   },
 
-  created() {
-    this.fetchingTemplates = true
+  mounted() {
+    this.setLoader()
 
     TemplatesService.getTemplates()
       .then(results => {
         this.templates = results
       })
       .finally(() => {
-        this.fetchingTemplates = false
+        this.unsetLoader()
       })
   },
 
@@ -130,7 +130,6 @@ export default {
     return {
       currentPage: 1,
       max: 1,
-      fetchingTemplates: false,
       templatesIsReloading: false,
       templates: [],
       formModalVisible: false,
@@ -139,6 +138,14 @@ export default {
   },
 
   methods: {
+    setLoader() {
+      this._loadingCallback = this.$vs.loading({ target: this.$refs.table })
+    },
+
+    unsetLoader() {
+      this._loadingCallback && this._loadingCallback.close()
+    },
+
     momentProvider(date) {
       return this.$moment(date)
     },

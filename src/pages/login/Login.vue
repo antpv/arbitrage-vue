@@ -1,6 +1,11 @@
 <template>
   <div class="login-container">
     <div class="login-container__row">
+      <div class="logo-wrapper">
+        <img src="../../assets/images/logo.png" />
+      </div>
+    </div>
+    <div class="login-container__row">
       <vs-input v-model="username" placeholder="Пользователь" required />
     </div>
 
@@ -83,6 +88,15 @@ export default {
     &:first-child {
       margin-top: 0;
     }
+  }
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+
+  & > img {
+    height: 44px;
   }
 }
 </style>

@@ -12,7 +12,7 @@
     <!-- TABLE -->
     <vs-row :style="{ marginTop: '15px' }">
       <vs-col w="12">
-        <vs-table striped>
+        <vs-table ref="table" striped>
           <template #thead>
             <vs-tr>
               <vs-th>
@@ -141,8 +141,12 @@ export default {
     MakeApplication
   },
 
-  created() {
-    this.$store.dispatch('applications/getApplications')
+  mounted() {
+    this.setLoader()
+
+    this.$store.dispatch('applications/getApplications').finally(() => {
+      this.unsetLoader()
+    })
   },
 
   data() {
@@ -169,6 +173,14 @@ export default {
 
     momentProvider(date) {
       return this.$moment(date)
+    },
+
+    setLoader() {
+      this._loadingCallback = this.$vs.loading({ target: this.$refs.table })
+    },
+
+    unsetLoader() {
+      this._loadingCallback && this._loadingCallback.close()
     },
 
     openFormModal(payload = null) {
