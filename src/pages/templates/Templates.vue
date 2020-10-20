@@ -4,10 +4,10 @@
     <vs-row>
       <vs-col w="12">
         <div class="actions">
-          <!-- <vs-button :loading="templatesIsReloading" class="actions__action" @click="reload">
+          <!-- <vs-button :loading="templatesIsReloading" class="actions__action" @click="reload" flat>
             Обновить
           </vs-button> -->
-          <vs-button @click="openAddModal">
+          <vs-button @click="() => openFormModal()">
             Добавить
           </vs-button>
         </div>
@@ -41,6 +41,7 @@
               <vs-th>
                 UpdatedAt
               </vs-th>
+              <vs-th />
             </vs-tr>
           </template>
           <template #tbody>
@@ -66,6 +67,13 @@
               <vs-td>
                 {{ momentProvider(tr.UpdatedAt).format('DD.MM.YYYY') }}
               </vs-td>
+              <vs-td>
+                <div class="flex-end">
+                  <vs-button flat size="small" @click="openFormModal(tr)">
+                    Редактировать
+                  </vs-button>
+                </div>
+              </vs-td>
             </vs-tr>
           </template>
           <template v-if="currentPage !== max" #footer>
@@ -80,8 +88,10 @@
 
     <!-- CREATE APPLICATION -->
     <MakeTemplate
-      :visible="addModalVisible"
-      @close="closeAddModal"
+      :visible="formModalVisible"
+      :editedPayload="formModalPayload"
+      :isEditMode="formModalPayload !== null"
+      @close="closeFormModal"
       @success="payload => templates.push(payload)"
     />
   </div>
@@ -123,7 +133,8 @@ export default {
       fetchingTemplates: false,
       templatesIsReloading: false,
       templates: [],
-      addModalVisible: false
+      formModalVisible: false,
+      formModalPayload: null
     }
   },
 
@@ -151,12 +162,14 @@ export default {
         })
     },
 
-    openAddModal() {
-      this.addModalVisible = true
+    openFormModal(payload = null) {
+      this.formModalPayload = Object.assign({}, payload)
+      this.formModalVisible = true
     },
 
-    closeAddModal() {
-      this.addModalVisible = false
+    closeFormModal() {
+      this.formModalPayload = null
+      this.formModalVisible = false
     }
   }
 }

@@ -26,6 +26,7 @@
             :loading="reloadApplicationStatistic"
             class="actions__action"
             @click="reload"
+            flat
           >
             Обновить
           </vs-button>

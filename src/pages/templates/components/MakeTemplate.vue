@@ -2,7 +2,7 @@
   <vs-dialog width="400px" not-center v-model="visibleModel">
     <template #header>
       <h4 class="no-margin">
-        Новый шаблон
+        {{ isEditMode ? 'Редактировать шаблон' : 'Новый шаблон' }}
       </h4>
     </template>
 
@@ -75,8 +75,12 @@
 
     <template #footer>
       <div class="con-footer">
-        <vs-button @click="makeTemplate" :loading="formRequest" gradient>
-          Создать
+        <vs-button
+          @click="() => (isEditMode ? updateTemplate() : makeTemplate())"
+          :loading="formRequest"
+          gradient
+        >
+          {{ isEditMode ? 'Редактировать' : 'Создать' }}
         </vs-button>
         <vs-button @click="close" dark transparent>
           Отмена
@@ -97,13 +101,31 @@ export default {
     visible: {
       type: Boolean,
       required: true
+    },
+
+    isEditMode: {
+      type: Boolean,
+      default: false
+    },
+
+    editedPayload: {
+      type: Object,
+      required: false,
+      default: () => ({})
     }
   },
 
   watch: {
     visible(isVisible) {
-      if (isVisible === false) this.resetForm()
-      else this.$store.dispatch('applications/getApplications').then(this.forceSelectRerender)
+      if (isVisible) {
+        this.$store.dispatch('applications/getApplications').then(this.forceSelectRerender)
+
+        if (this.isEditMode) {
+          this.setEditedPayloadValuesInForm()
+        }
+      } else {
+        this.resetForm()
+      }
     }
   },
 
@@ -143,6 +165,18 @@ export default {
   },
 
   methods: {
+    setEditedPayloadValuesInForm() {
+      const properties = ['Title', 'Message', 'Type', 'SubType', 'AppId']
+
+      properties.forEach(property => {
+        const value = this.editedPayload[property]
+
+        if (value !== undefined) {
+          this.form[property] = value
+        }
+      })
+    },
+
     forceSelectRerender() {
       this.selectKey += 1
     },
@@ -206,6 +240,13 @@ export default {
         .then(() => {
           console.log('created')
         })
+        .catch(() => {
+          this.$vs.notification({
+            color: 'danger',
+            title: 'Ошибка',
+            text: 'Не удалось создать шаблон'
+          })
+        })
         .finally(() => {
           this.formRequest = false
         })
@@ -216,6 +257,31 @@ export default {
       //   this.resetForm()
       //   this.close()
       // }, 500)
+    },
+
+    updateTemplate() {
+      this.validateForm()
+
+      if (this.formIsValid === false) return
+
+      const payload = Object.assign({}, this.form)
+
+      this.formRequest = true
+
+      TemplatesService.editTemplate(this.editedPayload.ID, payload)
+        .then(() => {
+          console.log('edited')
+        })
+        .catch(() => {
+          this.$vs.notification({
+            color: 'danger',
+            title: 'Ошибка',
+            text: 'Не удалось обновить шаблон'
+          })
+        })
+        .finally(() => {
+          this.formRequest = false
+        })
     }
   }
 }

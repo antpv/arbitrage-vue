@@ -37,7 +37,7 @@
                 {{ tr.comment }}
               </vs-td>
               <vs-td>
-                <div class="actions">
+                <div class="flex-end">
                   <vs-button flat size="small" @click="openEditModal(tr)">
                     Редактировать
                   </vs-button>
@@ -146,11 +146,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .language-description {
   &__title {
     font-size: 0.8rem;

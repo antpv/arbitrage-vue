@@ -20,5 +20,15 @@ export default {
     } catch (error) {
       throw Error(error)
     }
+  },
+
+  async editTemplate(id, payload) {
+    try {
+      const response = await ApiService.post(`/api/templates/${id}/`, payload)
+
+      return response
+    } catch (error) {
+      throw Error(error)
+    }
   }
 }
