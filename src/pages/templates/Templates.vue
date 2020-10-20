@@ -106,7 +106,7 @@ export default {
 
   metaInfo() {
     return {
-      title: 'Шаблоны'
+      title: 'Пушы'
     }
   },
 
@@ -161,7 +161,7 @@ export default {
           this.$vs.notification({
             color: 'danger',
             title: 'Ошибка',
-            text: 'Не удалось получить шаблоны'
+            text: 'Не удалось получить пушы'
           })
         })
         .finally(() => {

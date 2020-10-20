@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import store from './store'
 import statistics from '@/pages/statistics/router.js'
 import applications from '@/pages/applications/router.js'
-import pushlist from '@/pages/pushlist/router.js'
 import templates from '@/pages/templates/router.js'
 import login from '@/pages/login/router.js'
 
@@ -12,7 +11,7 @@ Vue.use(Router)
 const router = new Router({
   // mode: 'history',
   base: process.env.BASE_URL,
-  routes: [statistics, applications, pushlist, templates, login]
+  routes: [statistics, applications, templates, login]
 })
 
 router.beforeEach((to, from, next) => {

@@ -2,7 +2,7 @@
   <vs-dialog width="400px" not-center v-model="visibleModel">
     <template #header>
       <h4 class="no-margin">
-        {{ isEditMode ? 'Редактировать шаблон' : 'Новый шаблон' }}
+        {{ isEditMode ? 'Редактировать пуш' : 'Новый пуш' }}
       </h4>
     </template>
 
@@ -236,7 +236,7 @@ export default {
           this.$vs.notification({
             color: 'danger',
             title: 'Ошибка',
-            text: 'Не удалось создать шаблон'
+            text: 'Не удалось создать пуш'
           })
         })
         .finally(() => {
@@ -268,7 +268,7 @@ export default {
           this.$vs.notification({
             color: 'danger',
             title: 'Ошибка',
-            text: 'Не удалось обновить шаблон'
+            text: 'Не удалось обновить пуш'
           })
         })
         .finally(() => {
