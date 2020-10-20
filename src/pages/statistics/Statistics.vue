@@ -305,6 +305,10 @@ export default {
     }
   },
 
+  created() {
+    this.$store.dispatch('applications/getApplications').then(this.forceSelectRerender)
+  },
+
   watch: {
     selectedApplication(value) {
       if (value) {
@@ -332,6 +336,7 @@ export default {
       applications,
       currentPage: 1,
       max: 1,
+      selectKey: 0,
       selectedApplication: '',
       fetchingApplicationStatistic: false,
       reloadApplicationStatistic: false,
@@ -373,6 +378,10 @@ export default {
   methods: {
     momentProvider(date) {
       return this.$moment(date)
+    },
+
+    forceSelectRerender() {
+      this.selectKey += 1
     },
 
     resetDateFilters() {
