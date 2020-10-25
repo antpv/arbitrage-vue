@@ -593,7 +593,6 @@ export default {
   margin-top: 5px;
   text-align: center;
   color: #84b59f;
-  border-top: 1px solid #84b59f;
   padding-top: 5px;
 }
 
@@ -607,7 +606,7 @@ export default {
 }
 
 .full-size-space-between {
-  height: calc(100vh - 90px);
+  height: calc(100vh - 89px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -629,7 +628,7 @@ export default {
   color: rgb(46, 82, 102);
   font-size: 13.3px;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 
   &__column {
     display: inline-block;
