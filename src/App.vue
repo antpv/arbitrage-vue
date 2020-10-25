@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .theme-container {
-  min-width: 959px;
+  min-width: 1209px;
   max-width: 1920px;
   margin: 0 auto;
   padding-top: 59px;

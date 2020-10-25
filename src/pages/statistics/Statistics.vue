@@ -39,9 +39,9 @@
       </vs-row>
 
       <!-- TABLE -->
-      <vs-row v-if="tableIsFetched" :style="{ marginTop: '15px' }">
+      <vs-row :style="{ marginTop: '15px' }">
         <vs-col w="12">
-          <vs-table striped>
+          <vs-table ref="table" striped>
             <template #thead>
               <vs-tr>
                 <vs-th>
@@ -293,9 +293,38 @@
       </vs-row>
     </div>
 
-    <div v-if="table.length " class="full-size-space-between__row">
-      <div class="statistics">
-        Записей: {{ table.length }}
+    <div v-show="table.length" class="full-size-space-between__row">
+      <div class="statistics" ref="statistics">
+        <div class="statistics__column" v-for="index in 10" :key="index">
+          <div class="statistics__content" v-if="(index > 3 && index < 7) || index > 7">
+            <div class="subtable">
+              <div class="subtable__row">
+                <div class="subtable__column" v-for="index in 3" :key="index" />
+              </div>
+              <div class="label">
+                <template v-if="index == 4">
+                  10 min no reg
+                </template>
+                <template v-else-if="index == 5">
+                  24 h no reg
+                </template>
+                <template v-else-if="index == 6">
+                  48 h no reg
+                </template>
+                <template v-else-if="index == 8">
+                  30 min no dep
+                </template>
+                <template v-else-if="index == 9">
+                  24 h no dep
+                </template>
+                <template v-else-if="index == 10">
+                  48 h no dep
+                </template>
+              </div>
+            </div>
+          </div>
+          <div class="statistics__content" v-else />
+        </div>
       </div>
     </div>
   </div>
@@ -315,6 +344,12 @@ export default {
 
   created() {
     this.$store.dispatch('applications/getApplications').then(this.forceSelectRerender)
+
+    window.addEventListener('resize', this.setTotalColumnsWidth)
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.setTotalColumnsWidth)
   },
 
   watch: {
@@ -330,6 +365,14 @@ export default {
             this.fetchingApplicationStatistic = false
           })
       }
+    },
+
+    filteredTable() {
+      this.setTotalData()
+
+      this.$nextTick(() => {
+        this.setTotalColumnsWidth()
+      })
     }
   },
 
@@ -380,10 +423,96 @@ export default {
       }
 
       return this.table
+    },
+
+    totalInstalls() {
+      return this.calculateTotal('Installs')
     }
   },
 
   methods: {
+    setTotalColumnsWidth() {
+      const table = this.$refs.table.$el
+      const statistics = this.$refs.statistics
+      const originalThs = table.querySelectorAll('thead > tr > th')
+      const cloneThs = statistics.querySelectorAll('.statistics__column')
+
+      Array.prototype.forEach.call(originalThs, (th, index) => {
+        const width = getComputedStyle(th).width
+        const cloneColumn = cloneThs[index]
+
+        cloneColumn.style.width = width
+      })
+    },
+
+    setTotalData() {
+      const statistics = this.$refs.statistics
+      const columns = statistics.querySelectorAll('.statistics__column')
+
+      Array.prototype.forEach.call(columns, (column, index) => {
+        const content = column.querySelector('.statistics__content')
+
+        if (index === 1) {
+          // Installs
+          content.innerHTML = this.calculateTotal('Installs')
+        } else if (index === 2) {
+          // NoReg10MinPush
+          content.innerHTML = 'N/A'
+        } else if (index === 3) {
+          // 10 min no reg
+          const [sent, open, dep] = column.querySelectorAll('.subtable__column')
+
+          sent.innerHTML = this.calculateTotal('NoReg10MinPush')
+          open.innerHTML = 'N/A'
+          dep.innerHTML = this.calculateTotal('RegsAfter10MinPush')
+        } else if (index === 4) {
+          // 24 h no reg
+          const [sent, open, dep] = column.querySelectorAll('.subtable__column')
+
+          sent.innerHTML = this.calculateTotal('NoReg24HrsPush')
+          open.innerHTML = 'N/A'
+          dep.innerHTML = this.calculateTotal('RegsAfter24HrsPush')
+        } else if (index === 5) {
+          // 48 h no reg
+          const [sent, open, dep] = column.querySelectorAll('.subtable__column')
+
+          sent.innerHTML = this.calculateTotal('NoReg48HrsPush')
+          open.innerHTML = 'N/A'
+          dep.innerHTML = this.calculateTotal('RegsAfter48HrsPush')
+        } else if (index === 6) {
+          // Dep < 10 min
+          content.innerHTML = 'N/A'
+        } else if (index === 7) {
+          // 30 min no dep
+          const [sent, open, dep] = column.querySelectorAll('.subtable__column')
+
+          sent.innerHTML = this.calculateTotal('NoDep30MinPush')
+          open.innerHTML = 'N/A'
+          dep.innerHTML = this.calculateTotal('DepsAfter30MinPush')
+        } else if (index === 8) {
+          // 24 h no dep
+          const [sent, open, dep] = column.querySelectorAll('.subtable__column')
+
+          sent.innerHTML = this.calculateTotal('NoDep24HrsPush')
+          open.innerHTML = 'N/A'
+          dep.innerHTML = this.calculateTotal('DepsAfter24HrsPush')
+        } else if (index === 9) {
+          // 48 h no dep
+          const [sent, open, dep] = column.querySelectorAll('.subtable__column')
+
+          sent.innerHTML = this.calculateTotal('NoDep48HrsPush')
+          open.innerHTML = 'N/A'
+          dep.innerHTML = this.calculateTotal('DepsAfter48HrsPush')
+        }
+      })
+    },
+
+    calculateTotal(propName) {
+      return this.table.reduce((sum, value) => {
+        return sum + value[propName]
+      }, 0)
+    },
+
     momentProvider(date) {
       return this.$moment(date)
     },
@@ -460,6 +589,14 @@ export default {
   }
 }
 
+.label {
+  margin-top: 5px;
+  text-align: center;
+  color: #84b59f;
+  border-top: 1px solid #84b59f;
+  padding-top: 5px;
+}
+
 .subtitle-short {
   text-align: center;
   margin: 0 auto;
@@ -467,5 +604,42 @@ export default {
 .description-short {
   text-align: center;
   margin: 0 auto;
+}
+
+.full-size-space-between {
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__row {
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.statistics {
+  background-color: transparent;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(46, 82, 102, 0.15);
+  color: rgb(46, 82, 102);
+  font-size: 13.3px;
+  display: flex;
+  align-items: flex-end;
+
+  &__column {
+    display: inline-block;
+  }
+
+  &__content {
+    display: inline-block;
+    padding: 0 12px;
+    overflow: hidden;
+    text-align: center;
+  }
 }
 </style>

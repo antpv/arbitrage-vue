@@ -33,28 +33,3 @@ body {
 .break-all {
   word-break: break-all;
 }
-
-.full-size-space-between {
-  height: calc(100vh - 74px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  &__row {
-    margin-bottom: 15px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.statistics {
-  background-color: transparent;
-  border-radius: var(--vs-radius);
-  margin-bottom: 15px;
-  padding: 7px 13px;
-  border: 1px solid rgba(46, 82, 102, 0.15);
-  color: rgb(46, 82, 102);
-  font-size: 13.3px;
-}
